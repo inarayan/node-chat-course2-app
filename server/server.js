@@ -12,9 +12,20 @@ app.use(express.static(path.join(__dirname, '../public')));
 
 
 socketIO.on('connection', function(clientSocket){
-    console.log("Connected to the client..." + clientSocket);
+
+    clientSocket.emit('newMessage', {
+        from:"indra@example.com",
+        text:"new Message from indra@example.com",
+        createdAt:"20180312T09:00:00Z"
+
+    });
+
+    clientSocket.on('createMessage',function(message){
+        console.log(JSON.stringify(message));
+    })
+
     clientSocket.on('disconnect', function(){
-    console.log("disconnected from the client");
+        console.log("disconnected from the client");
 })
 });
 
